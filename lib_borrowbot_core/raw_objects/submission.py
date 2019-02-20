@@ -50,7 +50,7 @@ class Submssion(object):
             self.init_from_keyval_type(kwargs)
 
         # Init from DataFrame row
-        if isinstance(init_object, pandas.core.series.Series):
+        if isinstance(init_object, pd.core.series.Series):
             self.init_from_keyval_type(init_object)
 
         # Init from submission_id
