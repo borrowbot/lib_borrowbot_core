@@ -41,7 +41,7 @@ class Submission(object):
         **kwargs
     """
 
-    def __init__(init_object=None, comments=None, sql_params=None, **kwargs):
+    def __init__(self, init_object=None, comments=None, sql_params=None, **kwargs):
         self.comments = None
         self.sql_params = sql_params
 
