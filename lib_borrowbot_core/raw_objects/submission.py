@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 
 
-class Submssion(object):
+class Submission(object):
     """ A class representing a single reddit submission. The class provides standard attributes and can be initialized
         in a variety of different ways for different use cases. Read-only SQL interfaces are also provided for comment
         retrieval, initalization from submission_id, and consistency validation.
