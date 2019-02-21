@@ -21,11 +21,8 @@ class Comment(object):
         if isinstance(init_object, str):
             self.init_from_comment_id(init_object)
 
-        print(type(init_object))
-
         # Init from praw Submission object
         if isinstance(init_object, praw.models.reddit.comment.Comment):
-            print('here')
             self.init_from_praw_comment(init_object)
 
         self.validate_object(query=False)
