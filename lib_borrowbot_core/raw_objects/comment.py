@@ -25,7 +25,8 @@ class Comment(object):
         if isinstance(init_object, praw.models.reddit.comment.Comment):
             self.init_from_praw_comment(init_object)
 
-        self.validate_object(query=False)
+        # Some unexpected author responses from PRAW. Need to look more into this.
+        # self.validate_object(query=False)
 
 
     def init_from_keyval_type(self, keyval_store):

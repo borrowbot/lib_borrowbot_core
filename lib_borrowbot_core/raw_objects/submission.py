@@ -61,7 +61,8 @@ class Submission(object):
         if isinstance(init_object, praw.models.Submission):
             self.init_from_praw_submission(init_object)
 
-        self.validate_object(query=False)
+        # Some unexpected author responses from PRAW. Need to look more into this.
+        # self.validate_object(query=False)
 
 
     def init_from_keyval_type(self, keyval_store):
@@ -96,12 +97,14 @@ class Submission(object):
         self.text = praw_submission.selftext
 
         # Try/except blocks to cover deleted authors
+        # Submission.author can be either None or can be a Redditor class which throws a 404 when the fullname attribute
+        # is asked for.
         try:
             self.author_name = praw_submission.author.name
         except:
             self.author_name = None
         try:
-            self.author_id = praw_submission.author_fullname
+            self.author_id = praw_submission.author.fullname
         except:
             self.author_id = None
 
