@@ -4,6 +4,9 @@ from datetime import datetime
 
 
 class Comment(object):
+    """ This class is very similar to the Submission class found in lib_borrowbot_core.raw_objects.submission.Submission
+        and so one should refer to the documentation there for help.
+    """
     def __init__(self, init_object=None, submission=None, sql_params=None, **kwargs):
         self.retrieval_datetime = datetime.utcnow()
         self.submission = submission
@@ -14,31 +17,31 @@ class Comment(object):
             self.init_from_keyval_type(kwargs)
 
         # Init from DataFrame row
-        if isinstance(init_object, pd.core.series.Series):
+        elif isinstance(init_object, pd.core.series.Series):
             self.init_from_keyval_type(init_object)
 
-        # Init from submission_id
-        if isinstance(init_object, str):
+        # Init from comment_id
+        elif isinstance(init_object, str):
             self.init_from_comment_id(init_object)
 
         # Init from praw Submission object
-        if isinstance(init_object, praw.models.reddit.comment.Comment):
+        elif isinstance(init_object, praw.models.reddit.comment.Comment):
             self.init_from_praw_comment(init_object)
 
-        # Some unexpected author responses from PRAW. Need to look more into this.
-        # self.validate_object(query=False)
+        else:
+            raise Exception('invalid init_object for comment initialization')
 
 
-    def init_from_keyval_type(self, keyval_store):
-        self.comment_id = keyval_store['comment_id']
+    def init_from_keyval_type(self, keyval):
+        self.comment_id = keyval['comment_id']
         self.retrieval_datetime = keyval.get('retrieval_datetime', datetime.utcnow())
-        self.creation_datetime = keyval_store['creation_datetime']
-        self.score = keyval_store['score']
-        self.subreddit_name = keyval_store['subreddit_name']
-        self.subreddit_id = keyval_store['subreddit_id']
-        self.link_id = keyval_store['link_id']
-        self.parent_id = keyval_store['parent_id']
-        self.text = keyval_store['text']
+        self.creation_datetime = keyval['creation_datetime']
+        self.score = keyval['score']
+        self.subreddit_name = keyval['subreddit_name']
+        self.subreddit_id = keyval['subreddit_id']
+        self.link_id = keyval['link_id']
+        self.parent_id = keyval['parent_id']
+        self.text = keyval['text']
         self.author_name = keyval.get('author_name')
         self.author_id = keyval.get('author_id')
 
@@ -55,6 +58,8 @@ class Comment(object):
         self.text = praw_comment.body
 
         # Try/except blocks to cover deleted authors
+        # Submission.author can be either None or can be a Redditor class which throws a 404 when the fullname attribute
+        # is asked for.
         try:
             self.author_name = praw_comment.author.name
         except:
@@ -66,14 +71,34 @@ class Comment(object):
 
 
     def init_from_comment_id(self, comment_id):
-        pass
+        if self.sql_params is None:
+            raise Exception("cannot get comment from comment ID without SQL params")
+
+        engine = create_engine("mysql://{}:{}@{}/{}?charset=utf8mb4".format(
+            self.sql_params['user'],
+            self.sql_params['passwd'],
+            self.sql_params['host'],
+            self.sql_params['db']
+        ), convert_unicode=True, encoding='utf-8')
+        con = engine.connect()
+
+        query = 'SELECT * FROM comments WHERE comment_id = "{}"'.format(comment_id)
+        df = pd.read_sql(sql=query, con=con)
+        con.close()
+
+        if df.shape[0] != 1:
+            raise Exception("could not find comment with comment ID {}".format(comment_id))
+        self.init_from_keyval_type(df.iloc[0])
 
 
     def retrieve_submission(self):
         pass
 
 
-    def validate_object(self, query=False):
-        # TODO: Query consistency checks
-        # TODO: More local checks
-        assert type(self.author_name) == type(self.author_id)
+    def validate_object(self):
+        """ Performs some basic checks on the consistency of the information stored in a Submission object. Note that
+            the num_comments counter occassionally underestimates the true number of comments so this method is not a
+            perfect determination of correctness.
+        """
+        if self.author_name is None:
+            assert self.author_id is None
