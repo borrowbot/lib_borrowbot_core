@@ -8,7 +8,6 @@ class Comment(object):
         and so one should refer to the documentation there for help.
     """
     def __init__(self, init_object=None, submission=None, sql_params=None, **kwargs):
-        self.retrieval_datetime = datetime.utcnow()
         self.submission = submission
         self.sql_params = sql_params
 
