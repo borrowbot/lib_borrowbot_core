@@ -17,12 +17,12 @@ class LoanRequest(object):
         self.retrieval_datetime = keyval.get('retrieval_datetime', datetime.utcnow())
         self.source_submission_id = keyval['source_submission_id']
         self.req_datetime = keyval['req_datetime']
-        self.insertion_datetime = keyval['insertion_datetime']
         self.return_date = keyval['return_date']
         self.borrower_id = keyval['borrower_id']
         self.borrower_location = keyval['borrower_location']
         self.principal_amt = keyval['principal_amt']
         self.repay_amt = keyval['repay_amt']
+        self.currency = keyval['currency']
         self.prearranged = keyval['prearranged']
         self.takes_paypal = keyval['takes_paypal']
         self.takes_venmo = keyval['takes_venmo']
