@@ -15,8 +15,8 @@ class Loan(object):
     def init_from_keyval_type(self, keyval):
         self.loan_id = keyval['loan_id']
         self.retrieval_datetime = keyval.get('retrieval_datetime', datetime.utcnow())
-        self.amount = keyval['amount']
-        self.lender = keyval['lender']
-        self.borrower = keyval['borrower']
+        self.amount = keyval['amount_id']
+        self.lender_id = keyval['lender_id']
+        self.borrower_id = keyval['borrower_id']
         self.loan_request_id = keyval['loan_request_id']
         self.source_comment_id = keyval['source_comment_id']
