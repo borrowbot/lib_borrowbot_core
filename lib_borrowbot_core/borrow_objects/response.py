@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class LoanConfirmation(object):
+class LoanResponse(object):
     def __init__(self, init_object=None, sql_params=None, **kwargs):
         self.sql_params = sql_params
 
@@ -9,14 +9,13 @@ class LoanConfirmation(object):
             self.init_from_keyval_type(kwargs)
 
         else:
-            raise Exception('invalid init_object for loan confirmation initialization')
+            raise Exception('invalid init_object for loan response initialization')
 
 
     def init_from_keyval_type(self, keyval):
-        self.confirm_id = keyval['confirm_id']
+        self.loan_id = keyval['loan_id']
         self.retrieval_datetime = keyval.get('retrieval_datetime', datetime.utcnow())
         self.amount = keyval['amount']
-        self.lender_name = keyval['lender_name']
+        self.lender_id = keyval['lender_id']
         self.borrower_id = keyval['borrower_id']
-        self.loan_request_id = keyval['loan_request_id']
         self.source_comment_id = keyval['source_comment_id']

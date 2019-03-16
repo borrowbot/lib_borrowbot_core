@@ -9,7 +9,7 @@ class Loan(object):
             self.init_from_keyval_type(kwargs)
 
         else:
-            raise Exception('invalid init_object for loan request initialization')
+            raise Exception('invalid init_object for loan initialization')
 
 
     def init_from_keyval_type(self, keyval):
