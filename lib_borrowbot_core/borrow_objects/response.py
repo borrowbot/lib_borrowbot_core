@@ -18,6 +18,6 @@ class LoanResponse(object):
         self.amount = keyval['amount']
         self.repaid = keyval['repaid']
         self.lender_id = keyval['lender_id']
-        self.borrower_id = keyval['borrower_id']
+        self.borrower_name = keyval['borrower_name']
         self.source_submission_id = keyval['source_comment_id']
         self.source_comment_id = keyval['source_comment_id']
