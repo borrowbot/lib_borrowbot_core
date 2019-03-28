@@ -20,10 +20,13 @@ def bulk_retrieve_comments(submission_list, sql_params):
     Rets [<Submission>]: Returns the same list of Submission objects as is passed in. Note that this function edits the
         Submission list in place.
     """
+    if len(submission_list) == 0:
+        return submission_list
+
     if len(submission_list) == 1:
         submission_list[0].sql_params = sql_params
         submission_list[0].retrieve_comments()
-        return
+        return submission_list
 
     engine = create_engine("mysql://{}:{}@{}/{}?charset=utf8mb4".format(
         sql_params['user'],
