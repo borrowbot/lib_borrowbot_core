@@ -18,5 +18,5 @@ class LoanConfirmation(object):
         self.amount = keyval['amount']
         self.lender_name = keyval['lender_name']
         self.borrower_id = keyval['borrower_id']
-        self.loan_request_id = keyval['loan_request_id']
+        self.source_submission_id = keyval['source_submission_id']
         self.source_comment_id = keyval['source_comment_id']
