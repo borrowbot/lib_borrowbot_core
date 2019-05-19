@@ -1,6 +1,7 @@
 import praw
 import pandas as pd
 from datetime import datetime
+from sqlalchemy import create_engine
 
 
 class Comment(object):
