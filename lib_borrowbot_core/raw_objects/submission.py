@@ -141,7 +141,7 @@ class Submission(object):
         self.upvote_ratio = praw_submission.upvote_ratio
         self.permalink = praw_submission.permalink
         self.subreddit_name = praw_submission.subreddit
-        self.subreddit_id = praw_submission.subreddit.name
+        self.subreddit_id = praw_submission.subreddit_id
         self.title = praw_submission.title
         self.text = praw_submission.selftext
 
@@ -153,7 +153,7 @@ class Submission(object):
         except:
             self.author_name = None
         try:
-            self.author_id = praw_submission.author.fullname
+            self.author_id = praw_submission.author_full_name
         except:
             self.author_id = None
 
