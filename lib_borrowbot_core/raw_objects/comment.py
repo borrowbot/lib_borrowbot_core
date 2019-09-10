@@ -45,14 +45,14 @@ class Comment(object):
         self.author_name = keyval.get('author_name')
         self.author_id = keyval.get('author_id')
 
-
+    @profile
     def init_from_praw_comment(self, praw_comment):
         self.comment_id = 't1_' + praw_comment.id
         self.retrieval_datetime = datetime.utcnow()
         self.creation_datetime = datetime.utcfromtimestamp(praw_comment.created_utc)
         self.score = praw_comment.score
         self.subreddit_name = praw_comment.subreddit
-        self.subreddit_id = praw_comment.subreddit.name
+        self.subreddit_id = praw_comment.subreddit_id
         self.link_id = praw_comment.link_id
         self.parent_id = praw_comment.parent_id
         self.text = praw_comment.body
@@ -65,7 +65,7 @@ class Comment(object):
         except:
             self.author_name = None
         try:
-            self.author_id = praw_comment.author.fullname
+            self.author_id = praw_comment.author_full_name
         except:
             self.author_id = None
 
