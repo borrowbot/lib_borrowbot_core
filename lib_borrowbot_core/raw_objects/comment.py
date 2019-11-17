@@ -73,10 +73,11 @@ class Comment(object):
         if self.sql_params is None:
             raise Exception("cannot get comment from comment ID without SQL params")
 
-        engine = create_engine("mysql://{}:{}@{}/{}?charset=utf8mb4".format(
+        engine = create_engine("mysql://{}:{}@{}:{}/{}?charset=utf8mb4".format(
             self.sql_params['user'],
             self.sql_params['passwd'],
             self.sql_params['host'],
+            self.sql_params['port'],
             self.sql_params['db']
         ), convert_unicode=True, encoding='utf-8')
         con = engine.connect()

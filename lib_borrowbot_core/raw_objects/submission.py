@@ -28,10 +28,11 @@ def bulk_retrieve_comments(submission_list, sql_params):
         submission_list[0].retrieve_comments()
         return submission_list
 
-    engine = create_engine("mysql://{}:{}@{}/{}?charset=utf8mb4".format(
+    engine = create_engine("mysql://{}:{}@{}:{}/{}?charset=utf8mb4".format(
         sql_params['user'],
         sql_params['passwd'],
         sql_params['host'],
+        sql_params['port'],
         sql_params['db']
     ), convert_unicode=True, encoding='utf-8')
     con = engine.connect()
@@ -162,10 +163,11 @@ class Submission(object):
         if self.sql_params is None:
             raise Exception("cannot get submission from submission ID without SQL params")
 
-        engine = create_engine("mysql://{}:{}@{}/{}?charset=utf8mb4".format(
+        engine = create_engine("mysql://{}:{}@{}:{}/{}?charset=utf8mb4".format(
             self.sql_params['user'],
             self.sql_params['passwd'],
             self.sql_params['host'],
+            self.sql_params['port'],
             self.sql_params['db']
         ), convert_unicode=True, encoding='utf-8')
         con = engine.connect()
@@ -187,10 +189,11 @@ class Submission(object):
         if self.sql_params is None:
             raise Exception("cannot retrieve submission comments without SQL params")
 
-        engine = create_engine("mysql://{}:{}@{}/{}?charset=utf8mb4".format(
+        engine = create_engine("mysql://{}:{}@{}:{}/{}?charset=utf8mb4".format(
             self.sql_params['user'],
             self.sql_params['passwd'],
             self.sql_params['host'],
+            self.sql_params['port'],
             self.sql_params['db']
         ), convert_unicode=True, encoding='utf-8')
         con = engine.connect()
